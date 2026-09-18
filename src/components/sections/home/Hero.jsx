@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import heroBg from "../../assets/hero-bg.jpg";
-import heroBgTwo from "../../assets/Hero 2.jpg";
-import heroBgThree from "../../assets/Hero 3.jpg";
-import heroBgFour from "../../assets/Hero 4.jpg";
+import heroBg from "@/assets/hero-bg.jpg";
+import heroBgTwo from "@/assets/Hero 2.jpg";
+import heroBgThree from "@/assets/Hero 3.jpg";
+import heroBgFour from "@/assets/Hero 4.jpg";
 
 const heroImages = [heroBg, heroBgTwo, heroBgThree, heroBgFour];
 

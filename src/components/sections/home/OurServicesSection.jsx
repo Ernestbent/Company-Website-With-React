@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
-import deliveryImage from "../../assets/delivery.jpg";
-import genuinePartsImage from "../../assets/genuine parts.jpg";
-import transportationImage from "../../assets/transportation.jpg";
+import deliveryImage from "@/assets/delivery.jpg";
+import genuinePartsImage from "@/assets/genuine parts.jpg";
+import transportationImage from "@/assets/transportation.jpg";
 
 const services = [
   {

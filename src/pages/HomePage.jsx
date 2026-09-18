@@ -1,7 +1,7 @@
-import TrustedBrands from "@/components/sections/TrustedBrands";
-import Hero from "../components/sections/Hero";
-import OurServicesSection from "../components/sections/OurServicesSection";
-import TestimonialsSection from "../components/sections/Testimonials";
+import Hero from "@/components/sections/home/Hero";
+import OurServicesSection from "@/components/sections/home/OurServicesSection";
+import TestimonialsSection from "@/components/sections/home/Testimonials";
+import TrustedBrands from "@/components/sections/home/TrustedBrands";
 import Footer from "../components/layout/Footer";
 
 function HomePage() {

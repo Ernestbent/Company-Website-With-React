@@ -1,12 +1,20 @@
-import PageIntro from "../components/sections/PageIntro";
+import Footer from "../components/layout/Footer";
+import AboutHero from "@/components/sections/about/AboutHero";
+import AboutCompany from "@/components/sections/about/AboutCompany";
+import MissionVision from "@/components/sections/about/MissionVision";
+import OurCustomers from "../components/sections/about/OurCustomers";
+import MapLocation from "../components/sections/about/MapLocationSection";
 
 function AboutPage() {
   return (
-    <PageIntro
-      eyebrow="About us"
-      title="About AutoZone Professional"
-      description="Learn about our company, our experience, and our commitment to supplying dependable motorbike spare parts across Uganda."
-    />
+    <>
+      <AboutHero />
+      <AboutCompany />
+      <MissionVision />
+      <OurCustomers />
+      <MapLocation />
+      <Footer />
+    </>
   );
 }
 

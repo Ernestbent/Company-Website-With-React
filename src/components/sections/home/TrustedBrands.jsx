@@ -1,12 +1,12 @@
-import bajajLogo from "../../assets/brands/BAJAJ-AUTO.NS_BIG.png";
-import varrocLogo from "../../assets/brands/VARROC.NS_BIG.png";
-import nbcLogo from "../../assets/brands/NBCC.NS_BIG.png";
-import enduranceLogo from "../../assets/brands/ENDURANCE.NS.png";
-import gabrielLogo from "../../assets/brands/GABRIEL.NS_BIG.png";
-import tvsLogo from "../../assets/brands/TVSMOTOR.NS_BIG.png";
-import reveLogo from "../../assets/brands/Reve.png";
-import goldstarLogo from "../../assets/brands/goldstar.jpeg";
-import lumaxLogo from "../../assets/brands/Lumax.png";
+import bajajLogo from "@/assets/brands/BAJAJ-AUTO.NS_BIG.png";
+import varrocLogo from "@/assets/brands/VARROC.NS_BIG.png";
+import nbcLogo from "@/assets/brands/NBCC.NS_BIG.png";
+import enduranceLogo from "@/assets/brands/ENDURANCE.NS.png";
+import gabrielLogo from "@/assets/brands/GABRIEL.NS_BIG.png";
+import tvsLogo from "@/assets/brands/TVSMOTOR.NS_BIG.png";
+import reveLogo from "@/assets/brands/Reve.png";
+import goldstarLogo from "@/assets/brands/goldstar.jpeg";
+import lumaxLogo from "@/assets/brands/Lumax.png";
 const brands = [
   {
     name: "Bajaj",

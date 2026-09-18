@@ -28,24 +28,32 @@ function Navbar() {
         </Link>
 
         <nav
-          className="hidden shrink-0 items-center gap-2 md:inline-flex"
+          className="hidden shrink-0 items-center md:inline-flex"
           aria-label="Primary navigation"
         >
-          {navigationItems.map((item) => (
-            <NavLink
-              key={item.label}
-              to={item.to}
-              end={item.end}
-              className={({ isActive }) =>
-                `inline-flex h-[82px] items-center px-4 text-[15px] font-medium transition-colors ${
-                  isActive
-                    ? "text-brand"
-                    : "text-[#1e1e1e] hover:text-brand"
-                }`
-              }
-            >
-              {item.label}
-            </NavLink>
+          {navigationItems.map((item, index) => (
+            <div key={item.label} className="flex items-center">
+              <NavLink
+                to={item.to}
+                end={item.end}
+                className={({ isActive }) =>
+                  `inline-flex h-[82px] items-center px-4 text-[15px] font-medium transition-colors ${
+                    isActive
+                      ? "text-brand"
+                      : "text-[#1e1e1e] hover:text-brand"
+                  }`
+                }
+              >
+                {item.label}
+              </NavLink>
+
+              {index < navigationItems.length - 1 && (
+                <span
+                  className="h-4 w-px bg-[#3d2d1d]/25"
+                  aria-hidden="true"
+                />
+              )}
+            </div>
           ))}
         </nav>
 
