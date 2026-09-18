@@ -1,17 +1,16 @@
-import PageIntro from "../components/sections/PageIntro";
+import ContactHero from "../components/sections/contact/ContactHero";
+import ContactFormSection from "../components/sections/contact/ContactFormSection";
+import Footer from "@/components/layout/Footer";
 
-function ContactPage() {
+
+function ContactPage(){
   return (
-    <PageIntro
-      eyebrow="Get in touch"
-      title="Contact AutoZone"
-      description="Contact our team for product availability, wholesale enquiries, delivery information, or a quotation."
-    >
-      <div id="quote" className="mt-10 scroll-mt-8">
-        <p className="font-medium text-[#171a21]">Quotation form coming next.</p>
-      </div>
-    </PageIntro>
-  );
+    <>
+      <ContactHero />
+      <ContactFormSection />
+      <Footer />
+    </>
+  )
 }
 
 export default ContactPage;

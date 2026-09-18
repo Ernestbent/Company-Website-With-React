@@ -119,6 +119,21 @@ body {
   animation: hero-content-enter 900ms cubic-bezier(0.22, 1, 0.36, 1) 250ms both;
 }
 
+@keyframes delivery-truck-drive {
+  from {
+    transform: translateX(-48px);
+  }
+
+  to {
+    transform: translateX(calc(100vw + 48px));
+  }
+}
+
+.delivery-truck-drive {
+  animation: delivery-truck-drive 24s linear infinite;
+  will-change: transform;
+}
+
 @keyframes brand-marquee {
   from {
     transform: translateX(0);
@@ -148,6 +163,11 @@ body {
   .brand-marquee-track {
     animation: none;
     transform: none;
+  }
+
+  .delivery-truck-drive {
+    animation: none;
+    transform: translateX(16px);
   }
 }
 

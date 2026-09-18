@@ -11,13 +11,30 @@ function Hero() {
   const [activeImage, setActiveImage] = useState(0);
 
   useEffect(() => {
-    const interval = window.setInterval(() => {
-      setActiveImage((currentImage) =>
-        (currentImage + 1) % heroImages.length
-      );
-    }, 5000);
+    let interval;
+    let cancelled = false;
 
-    return () => window.clearInterval(interval);
+    const imageDecoders = heroImages.map((src) => {
+      const image = new Image();
+      image.src = src;
+
+      return image.decode().catch(() => undefined);
+    });
+
+    Promise.all(imageDecoders).then(() => {
+      if (cancelled) return;
+
+      interval = window.setInterval(() => {
+        setActiveImage((currentImage) =>
+          (currentImage + 1) % heroImages.length
+        );
+      }, 5000);
+    });
+
+    return () => {
+      cancelled = true;
+      window.clearInterval(interval);
+    };
   }, []);
 
   return (
@@ -30,22 +47,24 @@ function Hero() {
           src={image}
           alt=""
           aria-hidden="true"
-          className={`absolute inset-0 h-full w-full transform-gpu object-cover object-center transition-[opacity,transform] duration-[2000ms] ease-[cubic-bezier(0.45,0,0.55,1)] will-change-[opacity,transform] ${
+          loading="eager"
+          decoding="async"
+          fetchPriority={index === 0 ? "high" : "auto"}
+          className={`absolute inset-0 h-full w-full object-cover object-center transition-opacity duration-[1800ms] ease-linear will-change-[opacity] ${
             index === activeImage
-              ? "scale-100 opacity-100"
-              : "scale-[1.025] opacity-0"
+              ? "z-10 opacity-100"
+              : "z-0 opacity-0"
           }`}
         />
       ))}
 
       <div
-        className="absolute inset-0 bg-[linear-gradient(90deg,rgba(6,13,18,0.82)_0%,rgba(6,13,18,0.58)_38%,rgba(6,13,18,0.18)_72%,rgba(6,13,18,0.08)_100%)]"
+        className="absolute inset-0 z-20 bg-[linear-gradient(90deg,rgba(6,13,18,0.82)_0%,rgba(6,13,18,0.58)_38%,rgba(6,13,18,0.18)_72%,rgba(6,13,18,0.08)_100%)]"
         aria-hidden="true"
       />
 
       <div
-        key={activeImage}
-        className="hero-content-enter relative z-10 w-full px-6 py-20 sm:px-10 lg:px-[60px]"
+        className="hero-content-enter relative z-30 w-full px-6 py-20 sm:px-10 lg:px-[60px]"
       >
         <div className="max-w-[620px]">
           <div className="mb-5 flex items-center gap-3">

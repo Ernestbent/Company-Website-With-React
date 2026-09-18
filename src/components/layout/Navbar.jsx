@@ -1,6 +1,8 @@
 import { Link, NavLink } from "react-router-dom";
+import deliveryTruck from "../../assets/delivery-truck.png";
 import logo from "../../assets/Logo.jpeg";
 import searchIcon from "../../assets/search.png";
+import whatsappIcon from "../../assets/whatsapp.png";
 
 const navigationItems = [
   { label: "Home", to: "/", end: true },
@@ -13,8 +15,18 @@ const navigationItems = [
 
 function Navbar() {
   return (
-    <header className="h-[90px] w-full border-b-[8px] border-[#171a21] bg-white">
-      <div className="mx-auto flex h-full w-full max-w-[1440px] items-center justify-between px-5 sm:px-8 lg:px-[60px]">
+    <div className="sticky top-0 z-50 w-full">
+      <div className="relative h-8 w-full overflow-hidden bg-[#171a21]">
+        <img
+          src={deliveryTruck}
+          alt=""
+          aria-hidden="true"
+          className="delivery-truck-drive absolute bottom-0 h-8 w-8 object-contain"
+        />
+      </div>
+
+      <header className="h-[90px] w-full border-b-[8px] border-[#171a21] bg-white shadow-sm">
+        <div className="mx-auto flex h-full w-full max-w-[1440px] items-center justify-between px-5 sm:px-8 lg:px-[60px]">
         <Link
           to="/"
           aria-label="AutoZone home"
@@ -58,6 +70,21 @@ function Navbar() {
         </nav>
 
         <div className="inline-flex shrink-0 items-center gap-3 sm:gap-5">
+          <a
+            href="https://wa.me/256755829642?text=Hello"
+            target="_blank"
+            rel="noreferrer"
+            aria-label="Chat with Autozone Professional on WhatsApp"
+            className="flex h-9 items-center justify-center gap-2 text-sm font-medium text-[#1e1e1e] transition-colors hover:text-[#25a852]"
+          >
+            <span>Talk to Us</span>
+            <img
+              src={whatsappIcon}
+              alt=""
+              className="h-8 w-8 object-contain"
+            />
+          </a>
+
           <button
             type="button"
             aria-label="Search"
@@ -70,8 +97,9 @@ function Navbar() {
           </button>
 
         </div>
-      </div>
-    </header>
+        </div>
+      </header>
+    </div>
   );
 }
 

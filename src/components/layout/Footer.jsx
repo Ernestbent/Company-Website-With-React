@@ -146,22 +146,6 @@ function Footer() {
                 </svg>
               </a>
 
-              {/* Twitter */}
-              <a
-                href="#"
-                aria-label="Twitter"
-                className="flex h-9 w-9 items-center justify-center rounded-full bg-white/5 transition-colors hover:bg-[#ed5929] hover:text-white"
-              >
-                <svg
-                  viewBox="0 0 24 24"
-                  className="h-[17px] w-[17px]"
-                  fill="currentColor"
-                  aria-hidden="true"
-                >
-                  <path d="M21 6.1c-.7.3-1.5.5-2.3.6.8-.5 1.4-1.3 1.7-2.2-.8.5-1.6.8-2.6 1A4 4 0 0 0 11 9.2c0 .3 0 .6.1.9-3.3-.2-6.3-1.8-8.3-4.2-.4.6-.6 1.3-.6 2 0 1.4.7 2.6 1.8 3.3-.7 0-1.3-.2-1.8-.5 0 2 1.4 3.6 3.3 4-.3.1-.7.1-1.1.1-.3 0-.5 0-.8-.1.5 1.6 2 2.8 3.8 2.8A8.1 8.1 0 0 1 2.4 19H1.5a11.5 11.5 0 0 0 6.2 1.8c7.4 0 11.5-6.2 11.5-11.5v-.5c.7-.6 1.3-1.2 1.8-2Z" />
-                </svg>
-              </a>
-
             </div>
           </div>
 
