@@ -1,4 +1,6 @@
+import { useState } from "react";
 import { Link, NavLink } from "react-router-dom";
+import { Menu, X } from "lucide-react";
 import deliveryTruck from "../../assets/delivery-truck.png";
 import logo from "../../assets/Logo.jpeg";
 import searchIcon from "../../assets/search.png";
@@ -14,6 +16,8 @@ const navigationItems = [
 ];
 
 function Navbar() {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
   return (
     <div className="sticky top-0 z-50 w-full">
       <div className="relative h-8 w-full overflow-hidden bg-[#171a21]">
@@ -77,7 +81,7 @@ function Navbar() {
             aria-label="Chat with Autozone Professional on WhatsApp"
             className="flex h-9 items-center justify-center gap-2 text-sm font-medium text-[#1e1e1e] transition-colors hover:text-[#25a852]"
           >
-            <span>Talk to Us</span>
+            <span className="hidden sm:inline">Talk to Us</span>
             <img
               src={whatsappIcon}
               alt=""
@@ -97,7 +101,42 @@ function Navbar() {
           </button>
 
         </div>
+
+        <button
+          type="button"
+          aria-label={isMenuOpen ? "Close navigation menu" : "Open navigation menu"}
+          aria-expanded={isMenuOpen}
+          aria-controls="mobile-navigation"
+          className="inline-flex h-10 w-10 items-center justify-center rounded-md border border-brand/35 text-brand transition-colors hover:bg-brand/10 md:hidden"
+          onClick={() => setIsMenuOpen((isOpen) => !isOpen)}
+        >
+          {isMenuOpen ? <X size={22} /> : <Menu size={22} />}
+        </button>
         </div>
+
+        {isMenuOpen && (
+          <nav
+            id="mobile-navigation"
+            className="border-t border-[#3d2d1d]/15 bg-white px-5 py-3 shadow-md md:hidden"
+            aria-label="Mobile navigation"
+          >
+            {navigationItems.map((item) => (
+              <NavLink
+                key={item.label}
+                to={item.to}
+                end={item.end}
+                onClick={() => setIsMenuOpen(false)}
+                className={({ isActive }) =>
+                  `flex min-h-11 items-center border-b border-[#3d2d1d]/10 text-[15px] font-medium transition-colors last:border-b-0 ${
+                    isActive ? "text-brand" : "text-[#1e1e1e] hover:text-brand"
+                  }`
+                }
+              >
+                {item.label}
+              </NavLink>
+            ))}
+          </nav>
+        )}
       </header>
     </div>
   );
