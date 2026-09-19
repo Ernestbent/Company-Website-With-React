@@ -88,6 +88,13 @@ function Navbar() {
             />
           </a>
 
+          <a
+            href="tel:+256755829642"
+            className="ml-1 whitespace-nowrap text-[11px] font-medium text-[#1e1e1e] transition-colors hover:text-brand sm:ml-2 sm:text-sm"
+          >
+            Tel: +256 755 829 642
+          </a>
+
         </div>
 
         <button
