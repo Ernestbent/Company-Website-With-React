@@ -1,5 +1,6 @@
 {
   "rewrites": [
+    { "source": "/api/erpnext/:path*", "destination": "/api/erpnext?path=:path*" },
     { "source": "/erpnext-file/:path*", "destination": "https://accounting.autozonepro.org/:path*" },
     { "source": "/((?!api/).*)", "destination": "/index.html" }
   ]
