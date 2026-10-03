@@ -8,9 +8,8 @@ import whatsappIcon from "../../assets/whatsapp.png";
 const navigationItems = [
   { label: "Home", to: "/", end: true },
   { label: "About", to: "/about" },
-  { label: "Services", to: "/services" },
   { label: "Products", to: "/products" },
-  { label: "Blog", to: "/blog" },
+  { label: "Services", to: "/services" },
   { label: "Contact", to: "/contact" },
 ];
 
@@ -52,7 +51,7 @@ function Navbar() {
                 to={item.to}
                 end={item.end}
                 className={({ isActive }) =>
-                  `inline-flex h-[82px] items-center px-4 text-[15px] font-medium transition-colors ${
+                  `inline-flex h-[82px] items-center px-4 text-[17px] font-medium transition-colors ${
                     isActive
                       ? "text-brand"
                       : "text-[#1e1e1e] hover:text-brand"
@@ -122,7 +121,7 @@ function Navbar() {
                 end={item.end}
                 onClick={() => setIsMenuOpen(false)}
                 className={({ isActive }) =>
-                  `flex min-h-11 items-center border-b border-[#3d2d1d]/10 text-[15px] font-medium transition-colors last:border-b-0 ${
+                  `flex min-h-11 items-center border-b border-[#3d2d1d]/10 text-[17px] font-medium transition-colors last:border-b-0 ${
                     isActive ? "text-brand" : "text-[#1e1e1e] hover:text-brand"
                   }`
                 }

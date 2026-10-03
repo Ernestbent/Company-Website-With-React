@@ -1,3 +1,7 @@
+import { useState } from "react";
+import nishAvatar from "@/assets/brands/nish.jpeg";
+import simbaAvatar from "@/assets/brands/Simba.jpeg";
+
 const testimonials = [
   {
     id: 1,
@@ -5,6 +9,7 @@ const testimonials = [
       "Autozone Professional Ltd has become our go-to supplier for BAJAJ and VARROC parts. The stock is reliable, the team knows the products, and delivery is fast enough to keep our workshop moving.",
     name: "NISH Auto Parts",
     role: "Workshop Owner, Kampala",
+    image: nishAvatar,
   },
   {
     id: 2,
@@ -12,6 +17,7 @@ const testimonials = [
       "We buy in bulk for our retail network and the team at Autozone helps us manage stock levels, confirm fitment, and get orders delivered quickly across Kampala.",
     name: "Kato Moses",
     role: "Retail Chain Manager",
+    image: null,
   },
   {
     id: 3,
@@ -19,8 +25,39 @@ const testimonials = [
       "The quality of the ENDURANCE and NBC parts is consistent, and the pricing is competitive. We recommend Autozone to other boda boda spare parts buyers because the service is reliable.",
     name: "Simba Automotive",
     role: "Wholesaler, Kampala",
+    image: simbaAvatar,
   },
 ];
+
+function TestimonialAvatar({ image, name }) {
+  const [imageFailed, setImageFailed] = useState(false);
+  const initials = name.trim().split(/\s+/).slice(0, 2).map((word) => word[0]).join("");
+
+  return (
+    <div className="absolute -top-16 left-1/2 flex h-32 w-32 -translate-x-1/2 items-center justify-center overflow-hidden rounded-full border-[6px] border-white bg-[#f5ede6] shadow-sm">
+      {image && !imageFailed ? (
+        <img
+          src={image}
+          alt={name}
+          width={128}
+          height={128}
+          loading="lazy"
+          decoding="async"
+          onError={() => setImageFailed(true)}
+          className="h-full w-full object-cover object-center"
+        />
+      ) : (
+        <span
+          role="img"
+          aria-label={`Portrait placeholder for ${name}`}
+          className="text-3xl font-medium text-[#3d2d1d]"
+        >
+          {initials}
+        </span>
+      )}
+    </div>
+  );
+}
 
 function Testimonials() {
   return (
@@ -44,17 +81,22 @@ function Testimonials() {
         </header>
 
         {/* Testimonial Cards */}
-        <div className="mt-10 grid grid-cols-1 gap-5 md:grid-cols-2 lg:mt-12 lg:grid-cols-3">
+        <div className="mt-10 grid grid-cols-1 gap-x-5 gap-y-24 pt-16 md:grid-cols-2 lg:mt-12 lg:grid-cols-3">
 
           {testimonials.map((testimonial) => (
             <article
               key={testimonial.id}
-              className="flex min-h-[270px] flex-col rounded-xl border border-[#e5e5e5] bg-white p-6 sm:p-7"
+              className="relative flex min-h-[270px] flex-col rounded-xl border border-[#e5e5e5] bg-white px-6 pb-6 pt-24 text-center sm:px-7 sm:pb-7"
             >
+              <TestimonialAvatar
+                key={testimonial.image || testimonial.name}
+                image={testimonial.image}
+                name={testimonial.name}
+              />
 
               {/* Stars */}
               <div
-                className="flex gap-1 text-[#ed5929]"
+                className="flex justify-center gap-1 text-[#ed5929]"
                 aria-label="5 out of 5 stars"
               >
                 {[1, 2, 3, 4, 5].map((star) => (
@@ -77,12 +119,14 @@ function Testimonials() {
 
               {/* Review */}
               <p className="mt-5 text-sm leading-6 text-[#555555] sm:text-[15px]">
-                "{testimonial.review}"
+                <span className="text-xl text-[#ed5929]">“</span>
+                {testimonial.review}
+                <span className="text-xl text-[#ed5929]">”</span>
               </p>
 
               {/* Customer */}
-              <div className="mt-5">
-                <h3 className="text-[15px] font-bold text-[#1e1e1e]">
+              <div className="mt-auto pt-5">
+                <h3 className="text-[15px] font-bold text-[#ed5929]">
                   {testimonial.name}
                 </h3>
 
