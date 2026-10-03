@@ -1,12 +1,26 @@
-import PageIntro from "../components/sections/PageIntro";
+import { useState } from "react";
+import Footer from "../components/layout/Footer";
+import {
+  ProductCatalog,
+  ProductCategories,
+} from "../components/sections/products";
 
 function ProductsPage() {
+  const [category, setCategory] = useState("");
+
+  function handleCategoryChange(nextCategory) {
+    setCategory(nextCategory);
+    window.requestAnimationFrame(() => {
+      document.getElementById("product-catalog")?.scrollIntoView({ behavior: "smooth" });
+    });
+  }
+
   return (
-    <PageIntro
-      eyebrow="Our catalogue"
-      title="Motorbike Spare Parts"
-      description="Browse our growing range of quality motorbike parts from trusted brands."
-    />
+    <>
+      <ProductCategories activeCategory={category} onCategoryChange={handleCategoryChange} />
+      <ProductCatalog categoryQuery={category} />
+      <Footer />
+    </>
   );
 }
 

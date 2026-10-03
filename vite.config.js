@@ -15,6 +15,11 @@ export default defineConfig(({ mode }) => {
         Authorization: authorization,
       },
     },
+    '/erpnext-file': {
+      target: env.ERPNEXT_URL,
+      changeOrigin: true,
+      rewrite: (requestPath) => requestPath.replace(/^\/erpnext-file/, ''),
+    },
   }
 
   return {
