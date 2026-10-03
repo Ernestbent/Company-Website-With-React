@@ -9,8 +9,39 @@ const ITEM_FIELDS = [
   "stock_uom",
 ];
 
+function retryDelay(signal, milliseconds) {
+  return new Promise((resolve, reject) => {
+    if (signal?.aborted) {
+      reject(new DOMException("Request cancelled", "AbortError"));
+      return;
+    }
+    const onAbort = () => {
+      clearTimeout(timer);
+      reject(new DOMException("Request cancelled", "AbortError"));
+    };
+    const timer = setTimeout(() => {
+      signal?.removeEventListener("abort", onAbort);
+      resolve();
+    }, milliseconds);
+    signal?.addEventListener("abort", onAbort, { once: true });
+  });
+}
+
 async function request(path, signal) {
-  const response = await fetch(`${API_BASE}${path}`, { signal });
+  let response;
+  for (let attempt = 0; attempt < 3; attempt += 1) {
+    try {
+      response = await fetch(`${API_BASE}${path}`, { signal });
+    } catch (error) {
+      if (signal?.aborted || error.name === "AbortError" || attempt === 2) throw error;
+      await retryDelay(signal, 1000 * (attempt + 1));
+      continue;
+    }
+    if (![429, 502, 503, 504].includes(response.status) || attempt === 2) break;
+    // Finish the response before retrying the same read-only request.
+    await response.text();
+    await retryDelay(signal, 1000 * (attempt + 1));
+  }
 
   if (!response.ok) {
     let message = `ERPNext request failed (${response.status})`;
@@ -57,27 +88,16 @@ export async function searchItems({ query, brand = "all", group = "all", signal 
     "custom_oe_part_no",
   ];
 
-  const responses = await Promise.all(
-    searchableFields.map(async (fieldname) => {
-      const filters = [
-        ...buildItemFilters({ brand, group }),
-        [fieldname, "like", `%${searchTerm}%`],
-      ];
-      const params = new URLSearchParams({
-        fields: JSON.stringify(ITEM_FIELDS),
-        filters: JSON.stringify(filters),
-        limit_start: "0",
-        limit_page_length: "500",
-        order_by: "modified desc",
-      });
-      const payload = await request(`/resource/Item?${params}`, signal);
-      return Array.isArray(payload.data) ? payload.data : [];
-    }),
-  );
-
-  const uniqueItems = new Map();
-  responses.flat().forEach((item) => uniqueItems.set(item.name, item));
-  return [...uniqueItems.values()];
+  const params = new URLSearchParams({
+    fields: JSON.stringify(ITEM_FIELDS),
+    filters: JSON.stringify(buildItemFilters({ brand, group })),
+    or_filters: JSON.stringify(searchableFields.map((fieldname) => [fieldname, "like", `%${searchTerm}%`])),
+    limit_start: "0",
+    limit_page_length: "0",
+    order_by: "modified desc",
+  });
+  const payload = await request(`/resource/Item?${params}`, signal);
+  return Array.isArray(payload.data) ? payload.data : [];
 }
 
 export async function getEnabledItemCount({ brand = "all", group = "all", signal } = {}) {

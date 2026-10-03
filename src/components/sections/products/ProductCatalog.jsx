@@ -52,16 +52,23 @@ function ProductCatalog({ categoryQuery = "" }) {
               if (!controller.signal.aborted) preloadProductImages(nextItems);
               return nextItems;
             }),
-          getEnabledItemCount({ brand, group, signal: controller.signal }),
+          getEnabledItemCount({ brand, group, signal: controller.signal })
+            .catch((countError) => {
+              if (controller.signal.aborted) throw countError;
+              console.error("Product count unavailable:", countError);
+              return null;
+            }),
         ]);
 
     productsRequest
       .then(([nextItems, count]) => {
+        if (controller.signal.aborted) return;
+        setError("");
         setItems(nextItems);
         setTotal(count);
       })
       .catch((requestError) => {
-        if (requestError.name !== "AbortError") {
+        if (!controller.signal.aborted && requestError.name !== "AbortError") {
           console.error("Failed to load Item Master:", requestError);
           setError("Products are temporarily unavailable. Please try again.");
         }
@@ -104,7 +111,9 @@ function ProductCatalog({ categoryQuery = "" }) {
     : filteredItems;
   const visibleTotal = debouncedSearch ? filteredItems.length : total;
 
-  const pageCount = Math.max(1, Math.ceil(visibleTotal / PAGE_SIZE));
+  const pageCount = visibleTotal === null
+    ? page + (items.length === PAGE_SIZE ? 1 : 0)
+    : Math.max(1, Math.ceil(visibleTotal / PAGE_SIZE));
 
   function goToPage(nextPage) {
     setLoading(true);
@@ -167,7 +176,7 @@ function ProductCatalog({ categoryQuery = "" }) {
 
         <div className="mt-6 flex flex-wrap items-center justify-between gap-3 border-b border-[#dedede] pb-3 text-sm">
           <span className="font-medium text-[#ed5929]">
-            {searching ? "Searching…" : `${visibleTotal.toLocaleString()} ${debouncedSearch ? "matching products" : "products"}`}
+            {searching ? "Searching…" : visibleTotal === null ? "Products" : `${visibleTotal.toLocaleString()} ${debouncedSearch ? "matching products" : "products"}`}
           </span>
           {categoryQuery && <span className="text-[#666666]">Category: {categoryQuery}</span>}
         </div>
@@ -191,7 +200,7 @@ function ProductCatalog({ categoryQuery = "" }) {
         {!error && pageCount > 1 && (
           <nav className="mt-10 flex items-center justify-center gap-4" aria-label="Product pages">
             <button type="button" disabled={page === 1} onClick={() => goToPage(Math.max(1, page - 1))} className="inline-flex h-10 items-center gap-2 rounded-md border border-[#dddddd] bg-white px-4 text-sm font-medium text-[#3d2d1d] transition hover:border-[#ed5929] disabled:cursor-not-allowed disabled:opacity-40"><ChevronLeft className="h-4 w-4" aria-hidden="true" /> Previous</button>
-            <span className="text-sm text-[#666666]">Page {page} of {pageCount}</span>
+            <span className="text-sm text-[#666666]">Page {page}{visibleTotal !== null && ` of ${pageCount}`}</span>
             <button type="button" disabled={page === pageCount} onClick={() => goToPage(Math.min(pageCount, page + 1))} className="inline-flex h-10 items-center gap-2 rounded-md border border-[#dddddd] bg-white px-4 text-sm font-medium text-[#3d2d1d] transition hover:border-[#ed5929] disabled:cursor-not-allowed disabled:opacity-40">Next <ChevronRight className="h-4 w-4" aria-hidden="true" /></button>
           </nav>
         )}
