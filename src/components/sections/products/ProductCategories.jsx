@@ -22,8 +22,7 @@ function ProductCategories({ activeCategory = "", onCategoryChange }) {
       <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col justify-between gap-4 md:flex-row md:items-end">
           <div>
-            <div className="flex items-center gap-3">
-              <span className="h-0.5 w-8 bg-[#ed5929]" aria-hidden="true" />
+            <div className="flex items-center">
               <p className="text-xs font-semibold uppercase tracking-[1.5px] text-[#ed5929]">
                 Find your part
               </p>

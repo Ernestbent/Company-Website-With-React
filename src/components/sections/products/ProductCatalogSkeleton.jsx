@@ -4,18 +4,18 @@ const skeletonCards = Array.from({ length: 16 }, (_, index) => index);
 
 function ProductCardSkeleton() {
   return (
-    <article className="overflow-hidden border border-b-4 border-[#eaeaea] border-b-[#3d2d1d] bg-white" aria-hidden="true">
+    <article className="overflow-hidden border border-b-4 border-[#eaeaea] border-b-[#ed5929] bg-white" aria-hidden="true">
       <div className="aspect-[4/3] w-full animate-pulse bg-[#e1e3e3]" />
-      <div className="p-5">
-        <div className="h-2.5 w-20 animate-pulse rounded bg-[#ed5929]/20" />
-        <div className="mt-4 h-5 w-3/4 animate-pulse rounded bg-[#d7d7d7]" />
+      <div className="bg-[#3d2d1d] p-5">
+        <div className="h-2.5 w-20 animate-pulse rounded bg-white/30" />
+        <div className="mt-4 h-5 w-3/4 animate-pulse rounded bg-white/45" />
         <div className="mt-4 space-y-2">
-          <div className="h-3 w-full animate-pulse rounded bg-[#e8e8e8]" />
-          <div className="h-3 w-5/6 animate-pulse rounded bg-[#e8e8e8]" />
+          <div className="h-3 w-full animate-pulse rounded bg-white/25" />
+          <div className="h-3 w-5/6 animate-pulse rounded bg-white/25" />
         </div>
-        <div className="mt-7 flex items-center justify-between border-t border-[#eeeeee] pt-4">
-          <div className="h-3 w-24 animate-pulse rounded bg-[#ed5929]/20" />
-          <div className="h-3 w-4 animate-pulse rounded bg-[#ed5929]/20" />
+        <div className="mt-7 flex items-center justify-between border-t border-white/25 pt-4">
+          <div className="h-3 w-24 animate-pulse rounded bg-white/30" />
+          <div className="h-3 w-16 animate-pulse rounded bg-white/30" />
         </div>
       </div>
     </article>
@@ -26,13 +26,12 @@ function ProductCatalogSkeleton() {
   return (
     <section className="w-full bg-[#f7f7f7] py-12 sm:py-14 lg:py-16">
       <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center gap-3">
-          <span className="h-0.5 w-8 bg-[#ed5929]" aria-hidden="true" />
+        <div className="flex items-center">
           <p className="text-xs font-semibold uppercase tracking-[1.5px] text-[#ed5929]">Parts catalogue</p>
         </div>
         <h2 className="mt-4 text-3xl font-semibold tracking-tight text-[#171a21] sm:text-4xl">Explore our product range</h2>
         <p className="mt-3 max-w-3xl text-sm leading-6 text-[#777777]">
-          Search by part name or reference, then filter by product group and brand. Live stock from Item Master will appear here.
+          Browse our range of motorbike spare parts and find the right part for your needs.
         </p>
 
         <div className="mt-8 grid grid-cols-1 gap-3 lg:grid-cols-[minmax(0,1fr)_180px_180px_120px]">
@@ -58,9 +57,8 @@ function ProductCatalogSkeleton() {
 
         <div className="mt-6 flex items-center gap-5 border-b border-[#dedede] text-sm">
           <span className="border-b-2 border-[#ed5929] pb-3 font-medium text-[#ed5929]">All products</span>
-          <span className="pb-3 text-[#888888]">Loading product groups…</span>
         </div>
-        <p className="sr-only" role="status">Loading products from Item Master</p>
+        <p className="sr-only" role="status">Loading products</p>
         <div className="mt-7 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           {skeletonCards.map((card) => <ProductCardSkeleton key={card} />)}
         </div>

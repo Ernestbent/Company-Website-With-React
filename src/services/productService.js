@@ -120,3 +120,17 @@ export function getItemImageUrl(image) {
   const imagePath = image.startsWith("/") ? image : `/${image}`;
   return `/erpnext-file${imagePath}`;
 }
+
+export function preloadProductImages(items) {
+  if (typeof Image === "undefined") return;
+
+  items.slice(0, 4).forEach((item, index) => {
+    const imageUrl = getItemImageUrl(item.image);
+    if (!imageUrl) return;
+
+    const image = new Image();
+    image.decoding = "async";
+    image.fetchPriority = index === 0 ? "high" : "auto";
+    image.src = imageUrl;
+  });
+}

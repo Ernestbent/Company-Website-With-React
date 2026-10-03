@@ -8,7 +8,7 @@ const quickLinks = [
 
 function Footer() {
   return (
-    <footer className="w-full bg-[#19192d] text-[#ccccd4]">
+    <footer className="w-full bg-[#3d2d1d] text-[#f2ebe5]">
 
       <div className="mx-auto w-full max-w-7xl px-4 py-12 sm:px-6 sm:py-14 lg:px-8 lg:py-16">
 

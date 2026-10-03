@@ -5,6 +5,7 @@ import {
   getEnabledItemCount,
   getItemGroups,
   getItems,
+  preloadProductImages,
   searchItems,
 } from "../../../services/productService";
 import ProductCard from "./ProductCard";
@@ -39,9 +40,18 @@ function ProductCatalog({ categoryQuery = "" }) {
 
     const productsRequest = debouncedSearch
       ? searchItems({ query: debouncedSearch, brand, group, signal: controller.signal })
-          .then((matches) => [matches, matches.length])
+          .then((matches) => {
+            if (!controller.signal.aborted) {
+              preloadProductImages(matches.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE));
+            }
+            return [matches, matches.length];
+          })
       : Promise.all([
-          getItems({ start: (page - 1) * PAGE_SIZE, limit: PAGE_SIZE, brand, group, signal: controller.signal }),
+          getItems({ start: (page - 1) * PAGE_SIZE, limit: PAGE_SIZE, brand, group, signal: controller.signal })
+            .then((nextItems) => {
+              if (!controller.signal.aborted) preloadProductImages(nextItems);
+              return nextItems;
+            }),
           getEnabledItemCount({ brand, group, signal: controller.signal }),
         ]);
 
@@ -53,7 +63,7 @@ function ProductCatalog({ categoryQuery = "" }) {
       .catch((requestError) => {
         if (requestError.name !== "AbortError") {
           console.error("Failed to load Item Master:", requestError);
-          setError("We could not load products from Item Master. Please try again.");
+          setError("Products are temporarily unavailable. Please try again.");
         }
       })
       .finally(() => {
@@ -127,12 +137,11 @@ function ProductCatalog({ categoryQuery = "" }) {
   return (
     <section id="product-catalog" className="w-full scroll-mt-32 bg-[#f7f7f7] py-12 sm:py-14 lg:py-16">
       <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center gap-3">
-          <span className="h-0.5 w-8 bg-[#ed5929]" aria-hidden="true" />
+        <div className="flex items-center">
           <p className="text-xs font-semibold uppercase tracking-[1.5px] text-[#ed5929]">Parts catalogue</p>
         </div>
         <h2 className="mt-4 text-3xl font-semibold tracking-tight text-[#171a21] sm:text-4xl">Explore our product range</h2>
-        <p className="mt-3 max-w-3xl text-sm leading-6 text-[#777777]">Browse enabled products fetched directly from our ERPNext Item Master, then contact us for a quotation.</p>
+        <p className="mt-3 max-w-3xl text-sm leading-6 text-[#777777]">Browse our range of motorbike spare parts and find the right part for your needs.</p>
 
         <div className="mt-8 grid grid-cols-1 gap-3 lg:grid-cols-[minmax(0,1fr)_210px_210px]">
           <label className="relative block">
@@ -158,7 +167,7 @@ function ProductCatalog({ categoryQuery = "" }) {
 
         <div className="mt-6 flex flex-wrap items-center justify-between gap-3 border-b border-[#dedede] pb-3 text-sm">
           <span className="font-medium text-[#ed5929]">
-            {searching ? "Searching Item Master…" : `${visibleTotal.toLocaleString()} ${debouncedSearch ? "matching" : "enabled"} products`}
+            {searching ? "Searching…" : `${visibleTotal.toLocaleString()} ${debouncedSearch ? "matching products" : "products"}`}
           </span>
           {categoryQuery && <span className="text-[#666666]">Category: {categoryQuery}</span>}
         </div>
@@ -171,7 +180,9 @@ function ProductCatalog({ categoryQuery = "" }) {
           </div>
         ) : visibleItems.length ? (
           <div className="mt-7 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-            {visibleItems.map((item) => <ProductCard key={item.name} item={item} />)}
+            {visibleItems.map((item, index) => (
+              <ProductCard key={item.name} item={item} priority={index < 4} first={index === 0} />
+            ))}
           </div>
         ) : (
           <div className="mt-8 rounded-lg border border-[#e2e2e2] bg-white px-6 py-14 text-center text-[#666666]">No products on this page match the selected filters.</div>
